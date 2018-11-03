@@ -1,25 +1,26 @@
 import numpy as np
 import random
 import copy
+from Base import Base
 
 class Discriminator():
 	def __init__(self):
-		self.true_data = np.empty((0,10), int)
-		self.true_data = np.append(self.true_data, [np.ones(10)], axis=0)
+		self.base = Base()
+		self.true_parameters = self.base.give_parameters()
 		return
 
 	def buy(self, product):
-		for data in self.true_data:
-			pseudo_data = self.data_noise(data) 
-			if(np.array_equal(product, pseudo_data)):
+		for parameters in self.true_parameters:
+			pseudo_parameters = self.parameters_noise(parameters) 
+			if(np.array_equal(product, pseudo_parameters)):
 				return 1
 		return 0
 
-	def data_noise(self, data):
-		data_with_noise = copy.copy(data)
+	def parameters_noise(self, parameters):
+		parameters_with_noise = copy.copy(parameters)
 		for bit in range(random.randint(0,5)):
 			x = random.randint(0,10)
 			if (x < 10):
 				index = random.randint(0,9)
-				data_with_noise[index] = ~int(data_with_noise[index]) + 2 
-		return data_with_noise
+				parameters_with_noise[index] = Base.negate_bit(parameters_with_noise[index]) 
+		return parameters_with_noise
