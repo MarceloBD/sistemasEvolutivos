@@ -2,7 +2,7 @@ import numpy as np
 import random
 from Base import Base, Item
 
-N_ITEMS_SELLING = 10
+N_ITEMS_SELLING = 100
 
 class Generator():
 
@@ -14,7 +14,7 @@ class Generator():
 		return
 
 	def sell(self):
-		self.mutation()
+	#	self.mutation()
 		self.items_sold = 0
 		for item in range(N_ITEMS_SELLING):
 			result = self.dis.buy(self.product)

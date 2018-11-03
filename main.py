@@ -19,8 +19,11 @@ def selection(gen):
 	return new_gen
 
 def crossover(gen):
+	mask = np.random.randint(9, size=10)
 	for i in range(NUMBER_OF_GENES):
-		gen[i].crossover([0,1,1,0,1,1,1,1,1,0])
+		if(i%10 == 0):
+			continue
+		gen[i].crossover(mask)
 	return gen 		
 
 def run(gen):
@@ -49,8 +52,8 @@ if __name__ == '__main__':
 	running = 1
 	for i in range(EPOCHS):
 		new_gen = selection(gen)
-		#gen = crossover(new_gen)
-		gen = new_gen	
+		gen = crossover(new_gen)
+		#gen = new_gen	
 		run(gen)
 
 	plot_genes_market(gen)
