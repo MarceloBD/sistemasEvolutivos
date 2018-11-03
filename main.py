@@ -2,9 +2,12 @@ from Generator import Generator
 from Discriminator import Discriminator
 import numpy as np 
 import copy
+import matplotlib.pyplot as plt
 
 
-NUMBER_OF_GENES = 50
+NUMBER_OF_GENES = 50 
+EPOCHS = 200
+
 
 def selection(gen):
 	items_sold = [gen[gene].get_items_sold() for gene in range(NUMBER_OF_GENES)]
@@ -21,44 +24,32 @@ def crossover(gen):
 	return gen 		
 
 def run(gen):
-	for epoch in range(NUMBER_OF_GENES):
-		for i in range(NUMBER_OF_GENES):
-			gen[i].sell()
+	for gene in range(NUMBER_OF_GENES):
+		gen[gene].sell()
+
+	[print(gen[gene].get_items_sold()) for gene in range(NUMBER_OF_GENES)]
+	[market_history.append(gen[gene].get_items_sold()) for gene in range(NUMBER_OF_GENES)] 
+
+
+def plot_genes_market(gen):
+	for gene in range(NUMBER_OF_GENES):
+
+		plt.plot( np.arange(EPOCHS), [market_history[gene+i*NUMBER_OF_GENES] for i in range(EPOCHS)] , 'ro')
+		plt.show()	
 
 if __name__ == '__main__':
 	gen = []
 	dis = Discriminator()
+	market_history = []
+
 	for gene in range(NUMBER_OF_GENES):
 		gen.append(Generator(dis))
-	
 	run(gen)
 
-	[print(gen[i].get_items_sold()) for i in range(NUMBER_OF_GENES)]
+	running = 1
+	for i in range(EPOCHS):
+		new_gen = selection(gen)
+		gen = crossover(new_gen)
+		run(gen)
 
-	new_gen = selection(gen)
-	gen = crossover(new_gen)
-
-	run(gen)
-
-	[print(gen[i].get_items_sold()) for i in range(NUMBER_OF_GENES)]
-
-	new_gen = selection(gen)
-	gen = crossover(new_gen)
-
-	run(gen)
-
-	[print(gen[i].get_items_sold()) for i in range(NUMBER_OF_GENES)]
-
-	new_gen = selection(gen)
-	gen = crossover(new_gen)
-
-	run(gen)
-
-	[print(gen[i].get_items_sold()) for i in range(NUMBER_OF_GENES)]
-
-	new_gen = selection(gen)
-	gen = crossover(new_gen)
-
-	run(gen)
-
-	[print(gen[i].get_items_sold(), gen[i].print_product()) for i in range(NUMBER_OF_GENES)]
+	plot_genes_market(gen)

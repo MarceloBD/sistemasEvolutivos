@@ -14,6 +14,7 @@ class Generator():
 	def sell(self):
 		self.mutation()
 		result = self.dis.buy(self.product)
+		print(self.product)
 		if(result):
 			self.items_sold += 1
 			return Item.SOLD
