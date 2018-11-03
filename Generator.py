@@ -2,6 +2,8 @@ import numpy as np
 import random
 from Base import Base, Item
 
+N_ITEMS_SELLING = 10
+
 class Generator():
 
 	def __init__(self, dis):
@@ -13,13 +15,11 @@ class Generator():
 
 	def sell(self):
 		self.mutation()
-		result = self.dis.buy(self.product)
-		print(self.product)
-		if(result):
-			self.items_sold += 1
-			return Item.SOLD
-		else:
-			return Item.NOT_SOLD
+		self.items_sold = 0
+		for item in range(N_ITEMS_SELLING):
+			result = self.dis.buy(self.product)
+			if(result):
+				self.items_sold += 1
 
 	def mutation(self):
 		x = random.randint(1,100)

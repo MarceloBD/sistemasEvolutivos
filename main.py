@@ -3,7 +3,7 @@ from Discriminator import Discriminator
 import numpy as np 
 import copy
 import matplotlib.pyplot as plt
-
+import matplotlib.cm as cm
 
 NUMBER_OF_GENES = 50 
 EPOCHS = 200
@@ -32,10 +32,10 @@ def run(gen):
 
 
 def plot_genes_market(gen):
-	for gene in range(NUMBER_OF_GENES):
-
-		plt.plot( np.arange(EPOCHS), [market_history[gene+i*NUMBER_OF_GENES] for i in range(EPOCHS)] , 'ro')
-		plt.show()	
+	colors = cm.rainbow(np.linspace(0, 1, NUMBER_OF_GENES))
+	for gene, c in zip(np.arange(NUMBER_OF_GENES), colors):
+		plt.plot( np.arange(EPOCHS), [market_history[gene+i*NUMBER_OF_GENES] for i in range(EPOCHS)])
+	plt.show()	
 
 if __name__ == '__main__':
 	gen = []
@@ -49,7 +49,8 @@ if __name__ == '__main__':
 	running = 1
 	for i in range(EPOCHS):
 		new_gen = selection(gen)
-		gen = crossover(new_gen)
+		#gen = crossover(new_gen)
+		gen = new_gen	
 		run(gen)
 
 	plot_genes_market(gen)

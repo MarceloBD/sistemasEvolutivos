@@ -11,8 +11,7 @@ class Discriminator():
 
 	def buy(self, product):
 		for parameters in self.true_parameters:
-	#		pseudo_parameters = self.parameters_noise(parameters) 
-			pseudo_parameters = parameters
+			pseudo_parameters = self.parameters_noise(parameters) 
 			if(np.array_equal(product, pseudo_parameters)):
 				return 1
 		return 0
