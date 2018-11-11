@@ -7,66 +7,66 @@ import matplotlib.cm as cm
 
 NUMBER_OF_GENES = 100
 EPOCHS = 200
+SELECTION_RANGE = 5
+SAME_PARENT_GROUP = NUMBER_OF_GENES/SELECTION_RANGE
 
-
-def selection(gen):
-	items_sold = [gen[gene].get_items_sold() for gene in range(NUMBER_OF_GENES)]
-	biggest_index = np.argsort(-np.array(items_sold))[:5]
-	biggest_gen = [gen[index] for index in biggest_index]
+def selection(gens):
+	items_sold = [gene.get_items_sold() for gene in gens]
+	biggest_indices = np.argsort(-np.array(items_sold))[:SELECTION_RANGE]
+	biggest_gens = [gens[index] for index in biggest_indices]
 	for gene in range(NUMBER_OF_GENES):
-		gen[gene].set_parent(biggest_gen[int(gene/20)], int(not is_parent(gen[gene], biggest_gen)))
-	#[gen[i].print_product() for i in range(len(gen))]
-	[biggest_gen[i].print_product() for i in range(len(biggest_gen))]
-	return gen, biggest_gen
+		gens[gene].set_parent(biggest_gens[int(gene/SAME_PARENT_GROUP)], int(not is_parent(gens[gene], biggest_gens)))
+	[biggest_gens[i].print_product() for i in range(len(biggest_gens))]
+	return gens, biggest_gens
 
 def is_parent(gen, parent_list):
 	parent = 0
-	for big in parent_list:
-			if(gen == big):	
+	for par in parent_list:
+			if(gen == par):	
 				parent = 1
 	return parent
 
 def has_parent_content(gen, parent_list):
 	has_parent_content = 0
-	for big in parent_list:
-			if(np.array_equal(gen.get_product(), big.get_product())):	
+	for par in parent_list:
+			if(np.array_equal(gen.get_product(), par.get_product())):	
 				has_parent_content = 1
 	return has_parent_content	
 
-def crossover(gen, biggest_gen):
+def crossover(gens, biggest_gens):
 	mask = np.random.randint(8, size=10)
 	for i in range(NUMBER_OF_GENES):
-		if (is_parent(gen[i], biggest_gen) == 0):
-			gen[i].crossover(mask)
-	return gen 		
+		if (not is_parent(gens[i], biggest_gens)):
+			gens[i].crossover(mask)
+	return gens 		
 
-def run(gen, biggest_gen):
-	for gene in range(NUMBER_OF_GENES):
-		gen[gene].sell(has_parent_content(gen[gene], biggest_gen))
+def run(gens, biggest_gens):
+	for gene in gens:
+		gene.sell(has_parent_content(gene, biggest_gens))
 
-	[print(gen[gene].get_items_sold()) for gene in range(NUMBER_OF_GENES)]
-	[market_history.append(gen[gene].get_items_sold()) for gene in range(NUMBER_OF_GENES)] 
+	[print(gene.get_items_sold()) for gene in gens]
+	[market_history.append(gene.get_items_sold()) for gene in gens] 
 
 
-def plot_genes_market(gen):
+def plot_genes_market():
 	colors = cm.rainbow(np.linspace(0, 1, NUMBER_OF_GENES))
 	for gene, c in zip(np.arange(NUMBER_OF_GENES), colors):
 		plt.plot( np.arange(EPOCHS), [market_history[gene+i*NUMBER_OF_GENES] for i in range(EPOCHS)])
 	plt.show()	
 
 if __name__ == '__main__':
-	gen = []
+	gens = []
 	dis = Discriminator()
 	market_history = []
 
 	for gene in range(NUMBER_OF_GENES):
-		gen.append(Generator(dis))
-	run(gen, [])
+		gens.append(Generator(dis))
+	run(gens, [])
 
 	running = 1
 	for i in range(EPOCHS):
-		gen, biggest_gen = selection(gen)
-		gen = crossover(gen, biggest_gen)	
-		run(gen, biggest_gen)
+		gens, biggest_gens = selection(gens)
+		gens = crossover(gens, biggest_gens)	
+		run(gens, biggest_gens)
 
-	plot_genes_market(gen)
+	plot_genes_market()
