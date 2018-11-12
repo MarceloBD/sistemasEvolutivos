@@ -114,6 +114,7 @@ class Vision():
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 		px = int(len(img[0])/2)
 		py = int(len(img)/2)-100
+		print('img', px, py)
 
 		print(img[py, px])
 		pxleft = copy.copy(px)
@@ -127,16 +128,22 @@ class Vision():
 		last_px = self.draw_square(pxleft, pxright-pxleft)
 		return last_px, pxright
 
+	#before jump -9
+	#after jump -89
+	#total vertical 60
+	#total horizontal 70
 	def draw_square(self, left_border, length):
 		img = cv2.imread('images/borders.png')
+		print('left_boder, lengh', left_border, length)
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 		for x in range(70):
-			for y in range(50):
+			for y in range(60):
 				px = int(left_border+length/2.0-x)+4
-				py = int(len(img)/2)-34+y
+				py = int(len(img)/2)-9+y
 				img[py, px] = [255, 0,0]
-		#cv2.imshow('teste', img)
-		#cv2.waitKey(0)
+		cv2.imshow('teste', img)
+		cv2.waitKey(0)
+		print('simultation py', py)
 		print('last_x_pixel', px)
 		return px 
 
@@ -144,14 +151,14 @@ class Vision():
 		img = cv2.imread('images/processed/0.png')
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-		#img[750,last_px] = [255,255,255]
-		#cv2.imshow('teste', img)
-		#cv2.waitKey(0)
+		img[570,last_px] = [255,255,255]
+		cv2.imshow('teste', img)
+		cv2.waitKey(0)
 
 		pipe_pixel = pxright
 		for i in range(last_px, pxright):
-			if(np.array_equal(img[750, i], [0,255,0])):
+			if(np.array_equal(img[570, i], [0,255,0])):
 				pipe_pixel = i
 				break
-		print(pipe_pixel)
+		print('pipe', pipe_pixel)
 		return pipe_pixel
