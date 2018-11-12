@@ -98,20 +98,27 @@ class Vision():
 	def find_borders_values(self):
 		img = cv2.imread('images/borders.png')
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-		px = int(len(img)/2)
-		py = int(len(img[0])/2)+100
+		px = int(len(img[0])/2)
+		py = int(len(img)/2)-100
 
-		print(img[px, py])
+		print(img[py, px])
 		pxleft = copy.copy(px)
-		while(np.array_equal(img[pxleft, py], [0,0,0])):
+		while(np.array_equal(img[py, pxleft], [0,0,0])):
 			pxleft -= 1
 
 		pxright = copy.copy(px)
-		while(np.array_equal(img[pxright, py], [0,0,0])):
+		while(np.array_equal(img[py, pxright], [0,0,0])):
 			pxright += 1
-		print(px, pxleft/2+pxright/2)
+		print(px, pxleft, pxright-pxleft)
+		self.draw_square(pxleft, pxright-pxleft)
 
-
-
-
-
+	def draw_square(self, left_border, length):
+		img = cv2.imread('images/borders.png')
+		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+		for x in range(70):
+			for y in range(50):
+				px = int(left_border+length/2.0-x)+4
+				py = int(len(img)/2)-34+y
+				img[py, px] = [255, 0,0]
+		cv2.imshow('teste', img)
+		cv2.waitKey(0)
