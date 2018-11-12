@@ -4,9 +4,13 @@ import pyautogui
 import cv2
 import numpy as np
 import copy 
+import pyscreenshot as ImageGrab
+from datetime import datetime
+from mss import mss
 
-NUMBER_OF_IMAGES = 20
-SAMPLE_TIME = 0.2
+
+NUMBER_OF_IMAGES = 80
+SAMPLE_TIME = 0.01
 
 class Vision():
 
@@ -23,7 +27,15 @@ class Vision():
 			time.sleep(0.12)
 
 	def take_screen_shot(self):
-		return pyautogui.screenshot()
+		#return ImageGrab.grab(bbox=(740,160, 490, 680))
+	#	im.save(fname, 'png')
+		mon = {"left": 740, "top": 160, "width": 490, "height":680}
+		#mon':0, "top": 740, "left": 160, "width": 490, "height": 680}
+		sct = mss()
+		img = np.array(sct.grab(mon))
+		return img
+	#	print(filename)
+	#	return pyautogui.screenshot(region=(740,160, 490, 680))
 
 	def get_train_imgs(self):
 		screen = []
@@ -31,9 +43,11 @@ class Vision():
 			time.sleep(SAMPLE_TIME)
 			screen.append(self.take_screen_shot())
 
+		
+
 		for i in range(NUMBER_OF_IMAGES):
-			image = cv2.cvtColor(np.array(screen[i]), cv2.COLOR_RGB2BGR)
-			cv2.imwrite('images/'+str(i)+'.png', image)
+			#image = cv2.cvtColor(np.array(screen[i]), cv2.COLOR_BGR2RGB)
+			cv2.imwrite('images/'+str(i)+'.png', screen[i])
 	
 	def get_all_parameters(self):
 		for i in range(NUMBER_OF_IMAGES):
@@ -53,8 +67,8 @@ class Vision():
 		m, green = cv2.threshold(green, 10, 255, cv2.THRESH_BINARY)
 		greencolor = np.array([0, 255, 0])
 		green = cv2.bitwise_and(green, greencolor)
-		cv2.imshow('teste', green)
-		cv2.waitKey(0)
+	#	cv2.imshow('teste', green)
+	#	cv2.waitKey(0)
 		cv2.imwrite('images/processed/'+str(number)+'.png', green)
 
 	def get_bird(self, filename):
@@ -110,7 +124,8 @@ class Vision():
 		while(np.array_equal(img[py, pxright], [0,0,0])):
 			pxright += 1
 		print(px, pxleft, pxright-pxleft)
-		self.draw_square(pxleft, pxright-pxleft)
+		last_px = self.draw_square(pxleft, pxright-pxleft)
+		return last_px, pxright
 
 	def draw_square(self, left_border, length):
 		img = cv2.imread('images/borders.png')
@@ -120,5 +135,23 @@ class Vision():
 				px = int(left_border+length/2.0-x)+4
 				py = int(len(img)/2)-34+y
 				img[py, px] = [255, 0,0]
-		cv2.imshow('teste', img)
-		cv2.waitKey(0)
+		#cv2.imshow('teste', img)
+		#cv2.waitKey(0)
+		print('last_x_pixel', px)
+		return px 
+
+	def get_pipe_pixel(self, last_px, pxright,filename):
+		img = cv2.imread('images/processed/0.png')
+		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+		#img[750,last_px] = [255,255,255]
+		#cv2.imshow('teste', img)
+		#cv2.waitKey(0)
+
+		pipe_pixel = pxright
+		for i in range(last_px, pxright):
+			if(np.array_equal(img[750, i], [0,255,0])):
+				pipe_pixel = i
+				break
+		print(pipe_pixel)
+		return pipe_pixel
