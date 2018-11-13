@@ -126,6 +126,7 @@ class Vision():
 			pxright += 1
 		print(px, pxleft, pxright-pxleft)
 		last_px = self.draw_square(pxleft, pxright-pxleft)
+		print('last_px, pxright', last_px, pxright)
 		return last_px, pxright
 
 	#before jump -9
@@ -147,8 +148,8 @@ class Vision():
 		print('last_x_pixel', px)
 		return px 
 
-	def get_pipe_pixel(self, last_px, pxright,filename):
-		img = cv2.imread('images/processed/0.png')
+	def get_pipe_pixel(self, last_px, pxright, filename):
+		img = cv2.imread(filename)
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
 		img[570,last_px] = [255,255,255]
@@ -162,3 +163,33 @@ class Vision():
 				break
 		print('pipe', pipe_pixel)
 		return pipe_pixel
+
+
+	def get_distance(self, filename):
+		return self.get_pipe_pixel(182, 483, filename)
+
+
+	# pipe under pixel 318
+	# pipe over pixel 295 (total len 23)
+	# hole len 73 (295-122)
+	def get_center(self, filename):
+		img = cv2.imread(filename)
+		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+		hole_len = 73
+		pipe_inferior_len = 23
+
+		last_px = 182
+		pipe_pixel = self.get_pipe_pixel(182, 483, filename)
+		print(pipe_pixel)
+
+		pipe_inferior_pixel = 340 
+		for i in range(570, 0 ,-1):
+			if(np.array_equal(img[i, pipe_pixel], [0,255,0])):
+				pipe_inferior_pixel = i 
+				break
+		#cv2.imshow('teste', img)
+		#cv2.waitKey(0)
+		return pipe_inferior_pixel + pipe_inferior_len + int(hole_len/2)
+
+
+

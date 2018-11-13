@@ -13,7 +13,7 @@ class Mlp():
 			Dense(6, activation="relu"),
 			Dense(2, activation="softmax")
 			])
-		print(self.model.summary())
+		#print(self.model.summary())
 		self.model.compile(Adam(lr=0.0001), loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 		
 	def set_train(self, train, labels):

@@ -50,3 +50,5 @@ class Simulation():
 		return px 
 			
 
+	def get_dist_to_center(self, center):
+		return center-self.pos
