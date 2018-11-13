@@ -2,6 +2,9 @@
 from vision import Vision
 import numpy as np 
 from simulation import Simulation
+from ga import Ga
+
+
 
 if __name__ == '__main__':
 #	mlp = Mlp()
@@ -20,6 +23,7 @@ if __name__ == '__main__':
 	#vision.get_borders('images/29.png')
 	#last_px, pxright = vision.find_borders_values()
 	#vision.get_pipe_pixel(last_px, pxright, 'images/0.png')
+	'''
 	sim = Simulation()
 	sim.update()
 	sim.jump()
@@ -48,3 +52,4 @@ if __name__ == '__main__':
 	sim.update()
 	sim.update()
 	sim.update()
+	'''
