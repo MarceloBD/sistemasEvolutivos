@@ -181,7 +181,7 @@ class Vision():
 
 		last_px = 182
 		pipe_pixel = self.get_pipe_pixel(182, 483, filename)
-		print(pipe_pixel)
+		#print(pipe_pixel)
 
 		pipe_inferior_pixel = 340 
 		for i in range(570, 0 ,-1):

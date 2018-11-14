@@ -17,6 +17,12 @@ class Simulation():
 		self.acel = 4.85
 		return
 
+	def reset(self):
+		self.pos = 390
+		self.frame = 23 
+		self.vel = 0
+		self.acel = 4.85
+
 	def jump(self):
 		self.vel = -25
 		return
