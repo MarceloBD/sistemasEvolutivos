@@ -142,8 +142,8 @@ class Vision():
 				px = int(left_border+length/2.0-x)+4
 				py = int(len(img)/2)-9+y
 				img[py, px] = [255, 0,0]
-		cv2.imshow('teste', img)
-		cv2.waitKey(0)
+		#cv2.imshow('teste', img)
+		#cv2.waitKey(0)
 		print('simultation py', py)
 		print('last_x_pixel', px)
 		return px 
@@ -153,10 +153,11 @@ class Vision():
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
 		img[570,last_px] = [255,255,255]
-		cv2.imshow('teste', img)
-		cv2.waitKey(0)
-
+		#cv2.imshow('teste', img)
+		#cv2.waitKey(0)
+		#print('last, pxright', last_px, pxright)
 		pipe_pixel = pxright
+		#[print(img[int(i),last_px]) for i in range(len(img))]
 		for i in range(last_px, pxright):
 			if(np.array_equal(img[570, i], [0,255,0])):
 				pipe_pixel = i

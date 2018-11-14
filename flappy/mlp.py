@@ -15,7 +15,9 @@ class Mlp():
 			])
 		#print(self.model.summary())
 		self.model.compile(Adam(lr=0.0001), loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-		
+		#w = self.model.layers[0].get_weights()
+		#print(w)
+
 	def set_train(self, train, labels):
 		print(train)
 		scaler = MinMaxScaler(feature_range=(0,1))

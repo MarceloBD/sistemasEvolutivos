@@ -29,7 +29,7 @@ class Simulation():
 		self.pos += self.vel
 		self.vel += self.acel
 		self.frame += 1
-		print(self.frame)
+		#print(self.frame)
 		self.draw_square(self)
 
 
@@ -43,12 +43,21 @@ class Simulation():
 				px = int(left_border+length/2.0-x)+4
 				py = int(len(img)/2)-9+y+ int(self.pos) - 390
 				img[py, px] = [255, 0,0]
-		cv2.imshow('teste', img)
-		cv2.waitKey(0)
+		#cv2.imshow('teste', img)
+		#cv2.waitKey(0)
 		print('simultation py', py)
 		print('last_x_pixel', px)
 		return px 
 			
+	def draw(self, img, color):
+		left_border = 11
+		length = 472
+		for x in range(70):
+			for y in range(60):
+				px = int(left_border+length/2.0-x)+4
+				py = int(len(img)/2)-9+y+ int(self.pos) - 390
+				img[py, px] = color
+		return img 
 
 	def get_dist_to_center(self, center):
 		return center-self.pos
