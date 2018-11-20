@@ -3,8 +3,10 @@ from keras.models import Sequential
 from keras.layers.core import Dense
 from keras.optimizers import Adam
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 import numpy as np 
 import random
+from keras.constraints import max_norm
 
 MUTATION_RANGE = 0.5
 MUTATION_CHANCE = 0.1 
@@ -14,13 +16,16 @@ class Mlp():
 
 	def __init__(self):
 		self.model = Sequential([
-			Dense(2, input_shape=(2,), activation="relu"),
-			Dense(6, activation="relu"),
-			Dense(2, activation="softmax")
+			Dense(2, input_shape=(2,), activation="relu", kernel_constraint=max_norm(1.)),
+			Dense(6, activation="relu", kernel_constraint=max_norm(1.)),
+			Dense(2, activation="softmax", kernel_constraint=max_norm(1.))
 			])
 		#print(self.model.summary())
 		self.model.compile(Adam(lr=0.0001), loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 		#w = self.model.layers[0].get_weights()
+		#print('------------w-----------------')
+		#w = self.model.get_weights()
+		#print(w)
 		#print(w)
 
 	def set_train(self, train, labels):
@@ -45,9 +50,21 @@ class Mlp():
 	def predict(self, test):
 		#predictions = self.model.predict(self.scaled_train, batch_size=10, verbose=0)
 		scaler = MinMaxScaler(feature_range=(0,1))
-		scaled_test = scaler.fit_transform((test))
-		rounded_predictions = self.model.predict_classes(scaled_test, batch_size=10, verbose=0)
-		print(rounded_predictions)
+		test = np.array([test[0][0], test[0][1]], dtype=np.float)
+		test = test.reshape(1,-1) 
+		test = np.vstack((test, [-500, -300]))
+		test = np.vstack((test, [500, 300]))
+
+		#print(test)
+		scaled_test = scaler.fit_transform(test)
+		print('parameterssss scaled', scaled_test[0].reshape(1,-1))
+		rounded_predictions = self.model.predict_classes(scaled_test[0].reshape(1,-1), batch_size=1, verbose=0)
+		#rounded_predictions = self.model.predict(scaled_test, batch_size=10, verbose=0)
+		#print('rounded', rounded_predictions)
+		#if(rounded_predictions[0][0] > rounded_predictions[0][1]):
+		#	rounded_predictions = [0]
+		#else:
+		#		rounded_predictions = [1]
 		return rounded_predictions
 
 	def weight_mutation(self):

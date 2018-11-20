@@ -1,5 +1,5 @@
 import cv2
-
+import copy
 
 class Simulation():
 
@@ -62,8 +62,11 @@ class Simulation():
 			for y in range(60):
 				px = int(left_border+length/2.0-x)+4
 				py = int(len(img)/2)-9+y+ int(self.pos) - 390
-				img[py, px] = color
+				img[py, px] = copy.copy(color)
 		return img 
 
 	def get_dist_to_center(self, center):
 		return center-self.pos
+
+	def print(self):
+		print(self.pos)

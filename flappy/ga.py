@@ -29,18 +29,23 @@ class Ga():
 			filename = filename[0]
 			img = cv2.imread(filename)
 			cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-			color = [255, 0, 0]
+			color = [0, 0, 0]
+			i = 0 
 			for chrom, mlp in zip (self.chrom, self.mlp):
 				jump = mlp.predict([[self.vis.get_distance(filename), chrom.get_dist_to_center(self.vis.get_center(filename))]])	
-				#print(type(jump))
+				print('parameterssssss' ,self.vis.get_distance(filename), chrom.get_dist_to_center(self.vis.get_center(filename)))
 				if(jump[0]):
 					print('----------------------- jump ----------------------------')
 					chrom.jump()
 				img = self.draw_all_squares(chrom, img, color)
-				color[0] -= 1
+				color[0] += 5
+				print("color", color)
+				print('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii', i)
+				chrom.print()
 				chrom.update()
+				i += 1
 			#print('here')
-			#if(epoch == 49):
+			#if(epoch == 30):
 			cv2.imshow('teste', img)
 			cv2.waitKey(0) 		
 

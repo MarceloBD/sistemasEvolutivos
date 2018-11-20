@@ -34,16 +34,16 @@ if __name__ == '__main__':
 	ga.set_train_set([['images/processed/46.png'],
 		['images/processed/47.png'],
 		['images/processed/48.png'],
-		['images/processed/49.png']])
-	#	['images/processed/50.png'],
-	#	['images/processed/51.png'],
-	#	['images/processed/52.png'],
-	#	['images/processed/53.png'],
-	#	['images/processed/54.png'],
-	#	['images/processed/55.png'],
-	#	['images/processed/56.png'],
+		['images/processed/49.png'],
+		['images/processed/50.png'],
+		['images/processed/51.png'],
+		['images/processed/52.png'],
+		['images/processed/53.png'],
+		['images/processed/54.png'],
+		['images/processed/55.png'],
+		['images/processed/56.png']])
 	#	['images/processed/57.png'],
-	#	['images/processed/58.png'],
+	#	['images/processed/58.png']])
 	#	['images/processed/59.png'],
 	#	['images/processed/60.png'],
 	#	['images/processed/61.png']])
