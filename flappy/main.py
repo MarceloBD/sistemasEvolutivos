@@ -41,12 +41,12 @@ if __name__ == '__main__':
 		['images/processed/53.png'],
 		['images/processed/54.png'],
 		['images/processed/55.png'],
-		['images/processed/56.png']])
-	#	['images/processed/57.png'],
-	#	['images/processed/58.png']])
-	#	['images/processed/59.png'],
-	#	['images/processed/60.png'],
-	#	['images/processed/61.png']])
+		['images/processed/56.png'],
+		['images/processed/57.png'],
+		['images/processed/58.png'],
+		['images/processed/59.png'],
+		['images/processed/60.png'],
+		['images/processed/61.png']])
 	ga.run(EPOCHS)
 	'''
 	sim = Simulation()

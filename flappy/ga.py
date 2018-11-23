@@ -32,17 +32,20 @@ class Ga():
 			color = [0, 0, 0]
 			i = 0 
 			for chrom, mlp in zip (self.chrom, self.mlp):
+				if(not chrom.is_alive):
+					continue
 				jump = mlp.predict([[self.vis.get_distance(filename), chrom.get_dist_to_center(self.vis.get_center(filename))]])	
 				print('parameterssssss' ,self.vis.get_distance(filename), chrom.get_dist_to_center(self.vis.get_center(filename)))
 				if(jump[0]):
 					print('----------------------- jump ----------------------------')
 					chrom.jump()
-				img = self.draw_all_squares(chrom, img, color)
+				if(chrom.is_alive()):
+					img = self.draw_all_squares(chrom, img, color)
 				color[0] += 5
 				print("color", color)
 				print('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii', i)
 				chrom.print()
-				chrom.update()
+				chrom.update(self.vis.get_distance(filename))
 				i += 1
 			#print('here')
 			#if(epoch == 30):
