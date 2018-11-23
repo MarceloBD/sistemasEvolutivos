@@ -23,6 +23,7 @@ class Simulation():
 		self.alive = True
 		self.distance = 0
 		self.fit = 0 
+		self.parent = False
 
 	def jump(self):
 		self.vel = -25
@@ -100,3 +101,6 @@ class Simulation():
 
 	def print(self):
 		print(self.pos)
+
+	def set_parent(self, chrom):
+		self.parent = chrom

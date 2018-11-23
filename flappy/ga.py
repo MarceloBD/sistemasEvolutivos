@@ -3,6 +3,8 @@ from mlp import Mlp
 from vision import Vision
 import cv2
 
+SELECTION_RANGE = 5
+
 
 class Ga():
 
@@ -11,6 +13,8 @@ class Ga():
 		self.mlp = [Mlp() for i in range(number_of_chromosomes)]
 		self.vis = Vision()	
 		self.train_set = []
+		self.number_of_chromosomes = number_of_chromosomes
+		self.number_of_chrom_per_group = self.number_of_chromosomes/SELECTION_RANGE
 		return
 
 	def set_train_set(self, filenames):
@@ -59,10 +63,25 @@ class Ga():
 	def mutation(self, mlp):
 		mlp.weight_mutation()
 
-	'''
-	def crossover():
+	def crossover(self):
+		#mask = np.random.randint(8, size=10)
+		for i in range(NUMBER_OF_GENES):
+				gens[i].crossover()
+		return gens
 
+	def selection(gens):
+		fits = [chrom.get_fit() for chrom in self.chrom]
+		biggest_fits_i = np.argsort(-np.array(fits))[:SELECTION_RANGE]
+		biggest_chroms = [self.chrom[i] for i in biggest_fits_i]
+		for chrom_i in range(self.number_of_chromosomes):
+			if(not self.is_parent(self.chrom[chrom_i], biggest_chroms)):
+				self.chrom[chrom_i].set_parent(biggest_chroms[int(chrom_i/self.number_of_chrom_per_group)])
 
-	def selection():
+	def is_parent(self, chrom, biggest_chroms):
+		parent = False
+		for c in biggest_chroms:
+			if(chrom == biggest_chroms):
+				parent = True
+		return parent
 
-	'''
+	
