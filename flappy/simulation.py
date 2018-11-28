@@ -23,7 +23,7 @@ class Simulation():
 		self.alive = True
 		self.distance = 0
 		self.fit = 0 
-		self.parent = False
+		self.parent = None
 
 	def jump(self):
 		self.vel = -25
@@ -104,3 +104,13 @@ class Simulation():
 
 	def set_parent(self, chrom):
 		self.parent = chrom
+
+	def crossover(self, mlp):
+		if(self.parent == mlp):
+			print('is pareeeeeeeeeeeeeeeeeeeeeent')
+			return
+		else:
+			mlp.crossover(self.parent)
+
+	def get_fit(self):
+		return self.fit

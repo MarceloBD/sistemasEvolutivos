@@ -99,3 +99,36 @@ class Mlp():
 				new_weigth[1][index] = value
 				self.model.layers[layer].set_weights(new_weigth)
 		#print('layer 2', self.model.layers[3].get_weights())
+
+	def crossover(self, mlp):
+		number_of_layers = int(len(self.model.get_weights())/2)
+		layer_len = [2]
+		layer_len += [len(self.model.layers[i].get_weights()[0][0]) for i in range(number_of_layers)]  
+
+		for layer in range(1, number_of_layers+1):
+			for i in range(int(layer_len[layer]*layer_len[layer-1]*MUTATION_RANGE)):
+				var = random.randint(1,100)
+				if (var <= 100*MUTATION_CHANCE):
+					new_weigth = self.model.layers[layer-1].get_weights()
+					parent_weight = mlp.model.layers[layer-1].get_weights()
+					index_i = random.randint(0, layer_len[layer-1]-1)
+					index_j = random.randint(0, layer_len[layer]-1)
+					#print('layer', layer, layer_len[layer]-1, layer_len[layer-1]-1)
+					#print(new_weigth)
+					print(new_weigth[0])
+					print('--')
+					print(parent_weight[0])
+					new_weigth[0][index_i][index_j] = (new_weigth[0][index_i][index_j]+
+														parent_weight[0][index_i][index_j])/2
+					self.model.layers[layer-1].set_weights(new_weigth)
+			layerb = layer-1
+			layer_lenb = layer_len[1:]
+			for i in range(int(layer_lenb[layerb]*MUTATION_RANGE)):
+				var = random.randint(1,100)
+				if (var <= 100*MUTATION_CHANCE*5):
+					new_weigth = self.model.layers[layerb].get_weights()
+					parent_weight = mlp.model.layers[layerb].get_weights()
+					index = random.randint(0, layer_lenb[layerb]-1)
+
+					new_weigth[1][index] = (new_weigth[1][index]+parent_weight[1][index])/2
+					self.model.layers[layerb].set_weights(new_weigth)

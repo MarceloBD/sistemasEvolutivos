@@ -2,6 +2,7 @@ from simulation import Simulation
 from mlp import Mlp 
 from vision import Vision
 import cv2
+import numpy as np 
 
 SELECTION_RANGE = 5
 
@@ -27,6 +28,8 @@ class Ga():
 			for chrom in self.chrom:
 				chrom.reset()
 			self.simulate(epoch)
+			self.selection()
+			self.crossover()
 
 	def simulate(self, epoch):
 		for filename in self.train_set:
@@ -53,8 +56,9 @@ class Ga():
 				i += 1
 			#print('here')
 			#if(epoch == 30):
-			cv2.imshow('teste', img)
-			cv2.waitKey(0) 		
+			#cv2.imshow('teste', img)
+			#cv2.waitKey(0)
+			print('img') 		
 
 	def draw_all_squares(self, chrom, img, color):
  		return chrom.draw(img, color)
@@ -65,22 +69,22 @@ class Ga():
 
 	def crossover(self):
 		#mask = np.random.randint(8, size=10)
-		for i in range(NUMBER_OF_GENES):
-				gens[i].crossover()
-		return gens
+		for i in range(self.number_of_chromosomes):
+				self.chrom[i].crossover(self.mlp[i])
+		return 
 
-	def selection(gens):
+	def selection(self):
 		fits = [chrom.get_fit() for chrom in self.chrom]
 		biggest_fits_i = np.argsort(-np.array(fits))[:SELECTION_RANGE]
-		biggest_chroms = [self.chrom[i] for i in biggest_fits_i]
+		biggest_fits_mlp = [self.mlp[i] for i in biggest_fits_i]
 		for chrom_i in range(self.number_of_chromosomes):
-			if(not self.is_parent(self.chrom[chrom_i], biggest_chroms)):
-				self.chrom[chrom_i].set_parent(biggest_chroms[int(chrom_i/self.number_of_chrom_per_group)])
+			#if(not self.is_parent(self.mlp[chrom_i], biggest_fits_mlp)):
+			self.chrom[chrom_i].set_parent(biggest_fits_mlp[int(chrom_i/self.number_of_chrom_per_group)])
 
-	def is_parent(self, chrom, biggest_chroms):
+	def is_parent(self, mlp, biggest_fits_mlp):
 		parent = False
-		for c in biggest_chroms:
-			if(chrom == biggest_chroms):
+		for c in biggest_fits_mlp:
+			if(mlp == c):
 				parent = True
 		return parent
 
