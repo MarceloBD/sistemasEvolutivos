@@ -1,5 +1,6 @@
 import cv2
 import copy
+import numpy as np 
 
 class Simulation():
 
@@ -61,8 +62,10 @@ class Simulation():
 			self.alive = False
 
 	def check_collision(self):
-		hole_len = 73
-		if(self.distance-45 <= 0 and np.abs(self.dist_to_center)+30 > hole_len/2):
+		#hole_len = 73
+		hole_len = 170
+		print('distance-255, dist to center, hole len/2', self.distance-255, np.abs(self.dist_to_center)+30, hole_len/2)
+		if(self.distance-255 <= 0 and np.abs(self.dist_to_center)+30 > hole_len/2):
 			self.alive = False
 		return
 
@@ -81,8 +84,8 @@ class Simulation():
 				img[py, px] = [255, 0,0]
 		#cv2.imshow('teste', img)
 		#cv2.waitKey(0)
-		print('simultation py', py)
-		print('last_x_pixel', px)
+	#	print('simultation py', py)
+	#	print('last_x_pixel', px)
 		return px 
 			
 	def draw(self, img, color):
@@ -120,4 +123,10 @@ class Simulation():
 		return self.fit_history[epoch]
 
 	def save_fit_in_history(self):
-		self.fit_history += [self.fit] 
+		self.fit_history += [self.fit]
+
+	def is_parent(self, mlp):
+		if(self.parent == mlp):
+			return True
+		else:
+			return False 

@@ -8,9 +8,13 @@ import numpy as np
 import random
 from keras.constraints import max_norm
 
-MUTATION_RANGE = 0.1
+MUTATION_RANGE = 0.5
 MUTATION_CHANCE = 0.1 
+MUTATION_BIAS_CHANCE = 0.1
 
+CROSSOVER_RANGE = 0.5
+CROSSOVER_CHANCE = 0.5
+CROSSOVER_BIAS_CHANCE = 0.5
 
 class Mlp():
 
@@ -57,7 +61,7 @@ class Mlp():
 
 		#print(test)
 		scaled_test = scaler.fit_transform(test)
-		print('parameterssss scaled', scaled_test[0].reshape(1,-1))
+		#print('parameterssss scaled', scaled_test[0].reshape(1,-1))
 		rounded_predictions = self.model.predict_classes(scaled_test[0].reshape(1,-1), batch_size=1, verbose=0)
 		#rounded_predictions = self.model.predict(scaled_test, batch_size=10, verbose=0)
 		#print('rounded', rounded_predictions)
@@ -92,7 +96,7 @@ class Mlp():
 	def bias_mutation(self, layer, layer_len):
 		for i in range(int(layer_len[layer]*MUTATION_RANGE)):
 			var = random.randint(1,100)
-			if (var <= 100*MUTATION_CHANCE*5):
+			if (var <= 100*MUTATION_BIAS_CHANCE):
 				new_weigth = self.model.layers[layer].get_weights()
 				index = random.randint(0, layer_len[layer]-1)
 				value = random.uniform(-1,1)
@@ -106,29 +110,43 @@ class Mlp():
 		layer_len += [len(self.model.layers[i].get_weights()[0][0]) for i in range(number_of_layers)]  
 
 		for layer in range(1, number_of_layers+1):
-			for i in range(int(layer_len[layer]*layer_len[layer-1]*MUTATION_RANGE)):
+			for i in range(int(layer_len[layer]*layer_len[layer-1]*CROSSOVER_RANGE)):
 				var = random.randint(1,100)
-				if (var <= 100*MUTATION_CHANCE):
+				if (var <= 100*CROSSOVER_CHANCE):
 					new_weigth = self.model.layers[layer-1].get_weights()
 					parent_weight = mlp.model.layers[layer-1].get_weights()
 					index_i = random.randint(0, layer_len[layer-1]-1)
 					index_j = random.randint(0, layer_len[layer]-1)
-					#print('layer', layer, layer_len[layer]-1, layer_len[layer-1]-1)
-					#print(new_weigth)
-					print(new_weigth[0])
-					print('--')
-					print(parent_weight[0])
 					new_weigth[0][index_i][index_j] = (new_weigth[0][index_i][index_j]+
 														parent_weight[0][index_i][index_j])/2
 					self.model.layers[layer-1].set_weights(new_weigth)
 			layerb = layer-1
 			layer_lenb = layer_len[1:]
-			for i in range(int(layer_lenb[layerb]*MUTATION_RANGE)):
+			for i in range(int(layer_lenb[layerb]*CROSSOVER_RANGE)):
 				var = random.randint(1,100)
-				if (var <= 100*MUTATION_CHANCE*5):
+				if (var <= 100*CROSSOVER_BIAS_CHANCE):
 					new_weigth = self.model.layers[layerb].get_weights()
 					parent_weight = mlp.model.layers[layerb].get_weights()
 					index = random.randint(0, layer_lenb[layerb]-1)
 
 					new_weigth[1][index] = (new_weigth[1][index]+parent_weight[1][index])/2
 					self.model.layers[layerb].set_weights(new_weigth)
+
+
+
+	def save_mlp(self):
+		# serialize model to YAML
+		model_yaml = self.model.to_yaml()
+		with open("model.yaml", "w") as yaml_file:
+			yaml_file.write(model_yaml)
+		# serialize weights to HDF5
+		self.model.save_weights("model.h5")
+
+	def load_mlp(self):
+		# load YAML and create model
+		yaml_file = open('model.yaml', 'r')
+		loaded_model_yaml = yaml_file.read()
+		yaml_file.close()
+		self.model = model_from_yaml(loaded_model_yaml)
+		# load weights into new model
+		self.model.load_weights("model.h5")

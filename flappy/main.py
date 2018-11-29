@@ -3,9 +3,10 @@ from vision import Vision
 import numpy as np 
 from simulation import Simulation
 from ga import Ga
+from mlp import Mlp 
 
-NUMBER_CHROMOSOMES = 10
-EPOCHS = 10
+NUMBER_CHROMOSOMES = 1
+EPOCHS = 1
 
 if __name__ == '__main__':
 #	mlp = Mlp()
@@ -30,17 +31,26 @@ if __name__ == '__main__':
 	vision.get_center('images/processed/0.png')
 	'''
 
+#	mlp = Mlp()
+#	mlp.load_mlp()
+#	vis = Vision()
+#	vis.play(mlp)
+
+
+
+
 	ga = Ga(NUMBER_CHROMOSOMES)
-	ga.set_train_set([['images/processed/46.png'],
-		['images/processed/47.png'],
-		['images/processed/48.png'],
-		['images/processed/49.png'],
-		['images/processed/50.png'],
-		['images/processed/51.png'],
-		['images/processed/52.png'],
-		['images/processed/53.png'],
-		['images/processed/54.png'],
-		['images/processed/55.png'],
+	ga.set_train_set([
+		# ['images/processed/46.png'],
+		# ['images/processed/47.png'],
+		# ['images/processed/48.png'],
+		# ['images/processed/49.png'],
+		# ['images/processed/50.png'],
+		# ['images/processed/51.png'],
+		# ['images/processed/52.png'],
+		# ['images/processed/53.png'],
+		# ['images/processed/54.png'],
+		# ['images/processed/55.png'],
 		['images/processed/56.png'],
 		['images/processed/57.png'],
 		['images/processed/58.png'],

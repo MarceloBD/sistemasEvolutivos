@@ -20,11 +20,11 @@ class Vision():
 	
 
 	def simulate_space_bar(self):
-		time.sleep(2)
-		for i in range(100):
-			self.keyboard.press(" ")
-			self.keyboard.release(" ")
-			time.sleep(0.12)
+		#time.sleep(2)
+		#for i in range(100):
+		self.keyboard.press(" ")
+		self.keyboard.release(" ")
+	#	time.sleep(0.12)
 
 	def take_screen_shot(self):
 		#return ImageGrab.grab(bbox=(740,160, 490, 680))
@@ -88,7 +88,7 @@ class Vision():
 		cv2.imshow('teste', yellow)
 		cv2.waitKey(0)
 		cv2.imwrite('images/bird.png', yellow)
-		print(len(yellow), len(yellow[0]))
+		#print(len(yellow), len(yellow[0]))
 
 	def get_borders(self, filename):
 		img = cv2.imread(filename)
@@ -106,7 +106,7 @@ class Vision():
 		#cv2.imshow('teste', yellow)
 		#cv2.waitKey(0)
 		cv2.imwrite('images/borders.png', yellow)
-		print(len(yellow), len(yellow[0]))
+		#print(len(yellow), len(yellow[0]))
 
 
 	def find_borders_values(self):
@@ -114,9 +114,9 @@ class Vision():
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 		px = int(len(img[0])/2)
 		py = int(len(img)/2)-100
-		print('img', px, py)
+		#print('img', px, py)
 
-		print(img[py, px])
+		#print(img[py, px])
 		pxleft = copy.copy(px)
 		while(np.array_equal(img[py, pxleft], [0,0,0])):
 			pxleft -= 1
@@ -124,9 +124,9 @@ class Vision():
 		pxright = copy.copy(px)
 		while(np.array_equal(img[py, pxright], [0,0,0])):
 			pxright += 1
-		print(px, pxleft, pxright-pxleft)
+		#print(px, pxleft, pxright-pxleft)
 		last_px = self.draw_square(pxleft, pxright-pxleft)
-		print('last_px, pxright', last_px, pxright)
+		#print('last_px, pxright', last_px, pxright)
 		return last_px, pxright
 
 	#before jump -9
@@ -135,7 +135,7 @@ class Vision():
 	#total horizontal 70
 	def draw_square(self, left_border, length):
 		img = cv2.imread('images/borders.png')
-		print('left_boder, lengh', left_border, length)
+		#print('left_boder, lengh', left_border, length)
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 		for x in range(70):
 			for y in range(60):
@@ -144,8 +144,8 @@ class Vision():
 				img[py, px] = [255, 0,0]
 		#cv2.imshow('teste', img)
 		#cv2.waitKey(0)
-		print('simultation py', py)
-		print('last_x_pixel', px)
+		#print('simultation py', py)
+		#print('last_x_pixel', px)
 		return px 
 
 	def get_pipe_pixel(self, last_px, pxright, filename):
@@ -162,7 +162,7 @@ class Vision():
 			if(np.array_equal(img[570, i], [0,255,0])):
 				pipe_pixel = i
 				break
-		print('pipe', pipe_pixel)
+		#print('pipe', pipe_pixel)
 		return pipe_pixel
 
 
@@ -194,3 +194,14 @@ class Vision():
 
 
 
+	def play(self, mlp):
+		running = True
+		while(running):
+			## take screen shot with a filename 
+			#img = cv2.imread(filename)
+			#height of bird
+			jump = mlp.predict([[self.vis.get_distance(filename), 
+				chrom.get_dist_to_center(self.vis.get_center(filename))]])
+			if(jump): 
+				self.simulate_space_bar()
+		return 
