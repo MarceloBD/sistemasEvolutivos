@@ -11,6 +11,7 @@ class Simulation():
 	# 5 frames to climb
 	# 6 frames to back 	
 	def __init__(self):
+		self.fit_history = []
 		self.reset()
 		return
 
@@ -24,7 +25,7 @@ class Simulation():
 		self.distance = 0
 		self.fit = 0 
 		self.parent = None
-		self.fit_history = []
+		
 
 	def jump(self):
 		self.vel = -25
@@ -50,8 +51,6 @@ class Simulation():
 	def calculate_fitness(self):
 		if(self.alive):
 			self.fit = self.frame
-		else:
-			self.fit = 0
 
 	def set_alive_state(self):
 		if(self.pos-30 < 40):
@@ -117,6 +116,7 @@ class Simulation():
 		return self.fit
 
 	def get_fit_of_epoch(self, epoch):
+		#print(self.fit_history)
 		return self.fit_history[epoch]
 
 	def save_fit_in_history(self):

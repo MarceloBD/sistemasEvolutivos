@@ -32,7 +32,7 @@ class Ga():
 			for chrom in self.chrom:
 				chrom.reset()
 			self.simulate(epoch)
-			self.selection()
+			self.selection(epoch)
 			self.crossover()
 		self.plot_fit_graph()
 
@@ -59,12 +59,13 @@ class Ga():
 				chrom.print()
 				chrom.update(self.vis.get_distance(filename))
 				i += 1
-				chrom.save_fit_in_history()
+		for chrom in self.chrom:
+			chrom.save_fit_in_history()
 			#print('here')
 			#if(epoch >5):
 			#	cv2.imshow('teste', img)
 		#	cv2.waitKey(0)
-			print('img') 		
+			#print('img') 		
 
 	def draw_all_squares(self, chrom, img, color):
  		return chrom.draw(img, color)
@@ -79,10 +80,13 @@ class Ga():
 				self.chrom[i].crossover(self.mlp[i])
 		return 
 
-	def selection(self):
+	def selection(self, epoch):
 		fits = [chrom.get_fit() for chrom in self.chrom]
 		biggest_fits_i = np.argsort(-np.array(fits))[:SELECTION_RANGE]
 		biggest_fits_mlp = [self.mlp[i] for i in biggest_fits_i]
+		biggest_fits_chrom = [self.chrom[i] for i in biggest_fits_i]
+		print('melhores fittttttttttttttttsssssssssss ----')
+		[print(chrom.get_fit_of_epoch(epoch)) for chrom in biggest_fits_chrom]
 		for chrom_i in range(self.number_of_chromosomes):
 			#if(not self.is_parent(self.mlp[chrom_i], biggest_fits_mlp)):
 			self.chrom[chrom_i].set_parent(biggest_fits_mlp[int(chrom_i/self.number_of_chrom_per_group)])

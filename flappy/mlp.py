@@ -8,7 +8,7 @@ import numpy as np
 import random
 from keras.constraints import max_norm
 
-MUTATION_RANGE = 0.5
+MUTATION_RANGE = 0.1
 MUTATION_CHANCE = 0.1 
 
 
