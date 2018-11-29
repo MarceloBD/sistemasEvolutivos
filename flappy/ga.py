@@ -3,6 +3,9 @@ from mlp import Mlp
 from vision import Vision
 import cv2
 import numpy as np 
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+
 
 SELECTION_RANGE = 5
 
@@ -22,6 +25,7 @@ class Ga():
 		self.train_set = filenames
 
 	def run(self, epochs):
+		self.epochs = epochs
 		for epoch in range(epochs):
 			for mlp in self.mlp:
 				self.mutation(mlp)
@@ -30,6 +34,7 @@ class Ga():
 			self.simulate(epoch)
 			self.selection()
 			self.crossover()
+		self.plot_fit_graph()
 
 	def simulate(self, epoch):
 		for filename in self.train_set:
@@ -54,10 +59,11 @@ class Ga():
 				chrom.print()
 				chrom.update(self.vis.get_distance(filename))
 				i += 1
+				chrom.save_fit_in_history()
 			#print('here')
-			#if(epoch == 30):
-			#cv2.imshow('teste', img)
-			#cv2.waitKey(0)
+			#if(epoch >5):
+			#	cv2.imshow('teste', img)
+		#	cv2.waitKey(0)
 			print('img') 		
 
 	def draw_all_squares(self, chrom, img, color):
@@ -88,4 +94,8 @@ class Ga():
 				parent = True
 		return parent
 
-	
+	def plot_fit_graph(self):
+		colors = cm.rainbow(np.linspace(0, 1, self.number_of_chromosomes))
+		for chrom, c in zip(np.arange(self.number_of_chromosomes), colors):
+			plt.plot( np.arange(self.epochs), [self.chrom[chrom].get_fit_of_epoch(i) for i in range(self.epochs)])
+		plt.show()

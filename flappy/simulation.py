@@ -24,6 +24,7 @@ class Simulation():
 		self.distance = 0
 		self.fit = 0 
 		self.parent = None
+		self.fit_history = []
 
 	def jump(self):
 		self.vel = -25
@@ -114,3 +115,9 @@ class Simulation():
 
 	def get_fit(self):
 		return self.fit
+
+	def get_fit_of_epoch(self, epoch):
+		return self.fit_history[epoch]
+
+	def save_fit_in_history(self):
+		self.fit_history += [self.fit] 
