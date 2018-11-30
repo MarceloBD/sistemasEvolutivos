@@ -212,7 +212,7 @@ class Vision():
 			img = filename
 
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-		hole_len = 170
+		hole_len = 200
 		pipe_inferior_len = 25
 
 		last_px = 182

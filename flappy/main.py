@@ -6,7 +6,7 @@ from ga import Ga
 from mlp import Mlp 
 
 NUMBER_CHROMOSOMES = 50
-EPOCHS = 100
+EPOCHS = 2
 
 if __name__ == '__main__':
 #	mlp = Mlp()
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 	vis = Vision()
 	vis.play(mlp)
 	'''
-
+	
 	
 
 	ga = Ga(NUMBER_CHROMOSOMES)
@@ -410,3 +410,4 @@ if __name__ == '__main__':
 	sim.update()
 	sim.update()
 	'''
+	

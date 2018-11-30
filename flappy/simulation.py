@@ -52,6 +52,9 @@ class Simulation():
 	def calculate_fitness(self):
 		if(self.alive):
 			self.fit = self.frame
+			if(np.abs(self.dist_to_center) < 200):
+				self.fit += 10
+
 
 	def set_alive_state(self):
 		if(self.pos-30 < 40):
@@ -63,7 +66,8 @@ class Simulation():
 
 	def check_collision(self):
 		#hole_len = 73
-		hole_len = 170
+		#hole_len = 170
+		hole_len = 200
 		print('distance-255, dist to center, hole len/2', self.distance-255, np.abs(self.dist_to_center)+30, hole_len/2)
 		if(self.distance-255 <= 0 and np.abs(self.dist_to_center)+30 > hole_len/2):
 			self.alive = False
@@ -120,7 +124,7 @@ class Simulation():
 
 	def get_dist_to_center(self, center):
 		self.dist_to_center = center-self.pos
-		return center-self.pos
+		return center-self.pos+30
 
 	def print(self):
 		print(self.pos)

@@ -49,13 +49,11 @@ class Ga():
 	def simulate(self, epoch):
 		i = 30
 		for filename in self.train_set:
-			if(self.all_dead()):
-				break
 			filename = filename[0]
 			img = cv2.imread(filename)
 			cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 			color = [0, 0, 0]
-			i = 0 
+			#i = 0 
 			for chrom, mlp in zip (self.chrom, self.mlp):
 				if(not chrom.is_alive):
 					continue
@@ -71,16 +69,19 @@ class Ga():
 				#print('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii', i)
 				#chrom.print()
 				chrom.update(self.vis.get_distance(filename))
-				i += 1
+			#	i += 1
 		#	cv2.imshow('teste', img)
 		#	cv2.waitKey(0)
-		#	print('img') 	
-		#	if(epoch == 19):
-		#		if(i>0):
-		#			i -= 1
-		#			cv2.imshow('teste', img)
-		#			cv2.waitKey(0)
-		#			print('img') 		
+		#	print('img') 
+		#-	
+			if(epoch == 1):
+				if(i>0):
+					i -= 1
+					cv2.imshow('teste', img)
+					cv2.waitKey(0)
+					print('img')
+			if(self.all_dead()):
+				break 		
 		for chrom in self.chrom:
 			chrom.save_fit_in_history()
 			#print('here')
