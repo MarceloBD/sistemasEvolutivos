@@ -18,24 +18,25 @@ if __name__ == '__main__':
 #	mlp.set_train(train[:,0:2], train[:,2])
 #	mlp.train()
 #	mlp.predict(np.array([[50.,50.]]))
-	'''
+	
 	vision = Vision()
+	print('start')
 	vision.get_train_imgs()
 	vision.get_all_parameters()
 	#vision.get_bird('images/1.png')
-	'''
+	
 	'''
 	vision.get_borders('images/29.png')
 	last_px, pxright = vision.find_borders_values()
 	vision.get_pipe_pixel(last_px, pxright, 'images/processed/0.png')
 	vision.get_center('images/processed/0.png')
 	'''
-
+	"""
 	mlp = Mlp()
 	mlp.load_mlp()
 	vis = Vision()
 	vis.play(mlp)
-
+	"""
 
 	'''
 

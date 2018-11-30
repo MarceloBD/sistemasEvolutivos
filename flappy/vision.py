@@ -9,7 +9,7 @@ from datetime import datetime
 from mss import mss
 from simulation import Simulation
 
-NUMBER_OF_IMAGES = 80
+NUMBER_OF_IMAGES = 500
 SAMPLE_TIME = 0.01
 
 class Vision():
