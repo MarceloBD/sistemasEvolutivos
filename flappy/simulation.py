@@ -130,3 +130,6 @@ class Simulation():
 			return True
 		else:
 			return False 
+
+	def set_pos(self, pos):
+		self.pos = pos 

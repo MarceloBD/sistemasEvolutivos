@@ -5,8 +5,8 @@ from simulation import Simulation
 from ga import Ga
 from mlp import Mlp 
 
-NUMBER_CHROMOSOMES = 1
-EPOCHS = 1
+NUMBER_CHROMOSOMES = 50
+EPOCHS = 50
 
 if __name__ == '__main__':
 #	mlp = Mlp()
@@ -31,13 +31,13 @@ if __name__ == '__main__':
 	vision.get_center('images/processed/0.png')
 	'''
 
-#	mlp = Mlp()
-#	mlp.load_mlp()
-#	vis = Vision()
-#	vis.play(mlp)
+	mlp = Mlp()
+	mlp.load_mlp()
+	vis = Vision()
+	vis.play(mlp)
 
 
-
+	'''
 
 	ga = Ga(NUMBER_CHROMOSOMES)
 	ga.set_train_set([
@@ -76,6 +76,7 @@ if __name__ == '__main__':
 		['images/processed/78.png'],
 		['images/processed/79.png']])
 	ga.run(EPOCHS)
+	'''
 	'''
 	sim = Simulation()
 	sim.update()

@@ -7,6 +7,7 @@ from sklearn.preprocessing import StandardScaler
 import numpy as np 
 import random
 from keras.constraints import max_norm
+from keras.models import model_from_yaml
 
 MUTATION_RANGE = 0.5
 MUTATION_CHANCE = 0.1 

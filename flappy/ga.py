@@ -65,10 +65,10 @@ class Ga():
 		#	cv2.imshow('teste', img)
 		#	cv2.waitKey(0)
 		#	print('img') 	
-			if(epoch >20):
-				cv2.imshow('teste', img)
-				cv2.waitKey(0)
-				print('img') 		
+		#	if(epoch >20):
+		#		cv2.imshow('teste', img)
+		#		cv2.waitKey(0)
+		#		print('img') 		
 		for chrom in self.chrom:
 			chrom.save_fit_in_history()
 			#print('here')

@@ -7,7 +7,7 @@ import copy
 import pyscreenshot as ImageGrab
 from datetime import datetime
 from mss import mss
-
+from simulation import Simulation
 
 NUMBER_OF_IMAGES = 80
 SAMPLE_TIME = 0.01
@@ -73,7 +73,7 @@ class Vision():
 
 	def get_bird(self, filename):
 		#deprecated 
-		img = cv2.imread(filename)
+		'''img = cv2.imread(filename)
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 		
 		lower = np.array([10,10,50])
@@ -89,6 +89,34 @@ class Vision():
 		cv2.waitKey(0)
 		cv2.imwrite('images/bird.png', yellow)
 		#print(len(yellow), len(yellow[0]))
+		'''
+		try:
+			img = cv2.imread(filename)
+		except: 
+			img = filename
+		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+		print(img[10][10])
+		#218 338
+		lower = np.array([0,0,50])
+		upper = np.array([30,255,255])
+		kernel = np.ones((0,0),np.uint8)
+		yellow = cv2.erode(img, kernel,iterations = 1)
+		mask = cv2.inRange(yellow, lower, upper)
+		yellow = cv2.bitwise_and(img, img, mask= mask)
+
+		m, yellow = cv2.threshold(yellow, 10, 255, cv2.THRESH_BINARY)
+		yellowcolor = np.array([0, 255, 255])
+		yellow = cv2.bitwise_and(yellow, yellowcolor)
+		#cv2.imshow('teste', yellow)
+		#cv2.waitKey(0)
+		cv2.imwrite('yellow.png', yellow)
+
+		for i in range(670, 0, -1):
+			#print(yellow[i][218])
+			if(np.array_equal(yellow[i][218], [0, 255, 255])):
+				return i
+		return -1 
+
 
 	def get_borders(self, filename):
 		img = cv2.imread(filename)
@@ -149,7 +177,11 @@ class Vision():
 		return px 
 
 	def get_pipe_pixel(self, last_px, pxright, filename):
-		img = cv2.imread(filename)
+		try:
+			img = cv2.imread(filename)
+		except:
+			img = filename
+
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
 		img[570,last_px] = [255,255,255]
@@ -174,7 +206,11 @@ class Vision():
 	# pipe over pixel 295 (total len 23)
 	# hole len 73 (295-122)
 	def get_center(self, filename):
-		img = cv2.imread(filename)
+		try:
+			img = cv2.imread(filename)
+		except: 
+			img = filename
+
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 		hole_len = 73
 		pipe_inferior_len = 23
@@ -193,15 +229,30 @@ class Vision():
 		return pipe_inferior_pixel + pipe_inferior_len + int(hole_len/2)
 
 
+	def transform_image_green(self):
+		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+		
+		lower = np.array([40,50,50])	
+		upper = np.array([60,255,255])
+		mask = cv2.inRange(img, lower, upper)
+		green = cv2.bitwise_and(img, img, mask= mask)
+		kernel = np.ones((5,5),np.uint8)
+		green = cv2.erode(green, kernel,iterations = 1)
+		m, green = cv2.threshold(green, 10, 255, cv2.THRESH_BINARY)
+		greencolor = np.array([0, 255, 0])
+		green = cv2.bitwise_and(green, greencolor)
+		return green
 
 	def play(self, mlp):
 		running = True
+		chrom = Simulation()
 		while(running):
-			## take screen shot with a filename 
-			#img = cv2.imread(filename)
-			#height of bird
-			jump = mlp.predict([[self.vis.get_distance(filename), 
-				chrom.get_dist_to_center(self.vis.get_center(filename))]])
+			img = self.take_screen_shot()
+			cv2.imwrite('actual.png', img)
+			img = cv2.imread('actual.png')
+			chrom.set_pos(self.get_bird(img)+30)
+			jump = mlp.predict([[self.get_distance(img), 
+				chrom.get_dist_to_center(self.get_center(img))]])
 			if(jump): 
 				self.simulate_space_bar()
-		return 
+		return                                   
