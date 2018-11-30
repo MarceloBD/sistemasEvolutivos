@@ -39,8 +39,17 @@ class Ga():
 		self.plot_fit_graph()
 
 
+	def all_dead(self):
+		all_dead = True
+		for chrom in self.chrom:
+			if(chrom.is_alive()):
+				return False
+		return all_dead
+
 	def simulate(self, epoch):
 		for filename in self.train_set:
+			if(self.all_dead()):
+				break
 			filename = filename[0]
 			img = cv2.imread(filename)
 			cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -62,9 +71,9 @@ class Ga():
 				#chrom.print()
 				chrom.update(self.vis.get_distance(filename))
 				i += 1
-		#	cv2.imshow('teste', img)
-		#	cv2.waitKey(0)
-		#	print('img') 	
+			cv2.imshow('teste', img)
+			cv2.waitKey(0)
+			print('img') 	
 		#	if(epoch >20):
 		#		cv2.imshow('teste', img)
 		#		cv2.waitKey(0)

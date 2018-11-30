@@ -87,7 +87,25 @@ class Simulation():
 	#	print('simultation py', py)
 	#	print('last_x_pixel', px)
 		return px 
-			
+	
+	def draw_borders(self, img):
+		color = [255, 255, 255]
+		left_border = 11
+		length = 472
+		for x in [0, 69]:
+			for y in range(60):
+				px = int(left_border+length/2.0-x)+4
+				py = int(len(img)/2)-9+y+ int(self.pos) - 390
+				img[py, px] = copy.copy(color)
+		for x in range(70):
+			for y in [0, 59]:
+				px = int(left_border+length/2.0-x)+4
+				py = int(len(img)/2)-9+y+ int(self.pos) - 390
+				img[py, px] = copy.copy(color)
+
+		return img 
+
+
 	def draw(self, img, color):
 		left_border = 11
 		length = 472
@@ -96,6 +114,8 @@ class Simulation():
 				px = int(left_border+length/2.0-x)+4
 				py = int(len(img)/2)-9+y+ int(self.pos) - 390
 				img[py, px] = copy.copy(color)
+
+		img = self.draw_borders(img)
 		return img 
 
 	def get_dist_to_center(self, center):
