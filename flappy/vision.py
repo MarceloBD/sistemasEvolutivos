@@ -212,8 +212,8 @@ class Vision():
 			img = filename
 
 		cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-		hole_len = 73
-		pipe_inferior_len = 23
+		hole_len = 170
+		pipe_inferior_len = 25
 
 		last_px = 182
 		pipe_pixel = self.get_pipe_pixel(182, 483, filename)

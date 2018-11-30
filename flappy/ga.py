@@ -47,6 +47,7 @@ class Ga():
 		return all_dead
 
 	def simulate(self, epoch):
+		i = 30
 		for filename in self.train_set:
 			if(self.all_dead()):
 				break
@@ -71,13 +72,15 @@ class Ga():
 				#chrom.print()
 				chrom.update(self.vis.get_distance(filename))
 				i += 1
-			cv2.imshow('teste', img)
-			cv2.waitKey(0)
-			print('img') 	
-		#	if(epoch >20):
-		#		cv2.imshow('teste', img)
-		#		cv2.waitKey(0)
-		#		print('img') 		
+		#	cv2.imshow('teste', img)
+		#	cv2.waitKey(0)
+		#	print('img') 	
+		#	if(epoch == 19):
+		#		if(i>0):
+		#			i -= 1
+		#			cv2.imshow('teste', img)
+		#			cv2.waitKey(0)
+		#			print('img') 		
 		for chrom in self.chrom:
 			chrom.save_fit_in_history()
 			#print('here')
