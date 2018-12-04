@@ -5,6 +5,7 @@ from kivy.app import App
 from kivy.uix.label import Label 
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
+from menuoptions import Menuoptions
 
 class Menu(GridLayout):
 	def __init__(self, **kwargs):
@@ -21,13 +22,13 @@ class Menu(GridLayout):
 		self.add_widget(run_but)
 
 	def get_train_data(self, instance):
-		print('here')
+		Menuoptions().get_train_data()
 
 	def train(self, instance):
-		print('train')
+		Menuoptions().train()
 
 	def run(self, instance):
-		print('run')
+		Menuoptions().run()
 
 class Interface(App):
 	def build(self):
@@ -35,4 +36,3 @@ class Interface(App):
 
 
 
-Interface().run()
