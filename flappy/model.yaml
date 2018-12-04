@@ -20,7 +20,7 @@ config:
         class_name: VarianceScaling
         config: {distribution: uniform, mode: fan_avg, scale: 1.0, seed: null}
       kernel_regularizer: null
-      name: dense_73
+      name: dense_76
       trainable: true
       units: 2
       use_bias: true
@@ -40,7 +40,7 @@ config:
         class_name: VarianceScaling
         config: {distribution: uniform, mode: fan_avg, scale: 1.0, seed: null}
       kernel_regularizer: null
-      name: dense_74
+      name: dense_77
       trainable: true
       units: 6
       use_bias: true
@@ -60,9 +60,9 @@ config:
         class_name: VarianceScaling
         config: {distribution: uniform, mode: fan_avg, scale: 1.0, seed: null}
       kernel_regularizer: null
-      name: dense_75
+      name: dense_78
       trainable: true
       units: 2
       use_bias: true
-  name: sequential_25
+  name: sequential_26
 keras_version: 2.2.4
